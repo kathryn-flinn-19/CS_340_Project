@@ -11,7 +11,7 @@ import CreatePatientForm from '../components/CreatePatientForm';
 
 function Patients ({ backendURL }) {
 
-    /*// Set up a state variable `patients` to store and display the backend response
+    // Set up a state variable `patients` to store and display the backend response
     const [patients, setPatients] = useState([]);
 
 
@@ -70,9 +70,9 @@ function Patients ({ backendURL }) {
 
             <p>This page will display the Patient information and allow the user to create a new Patient.</p>
         </>
-    );*/
+    );
 
-    return (
+    /*return (
         <>
             <h1>Patients</h1>
             
@@ -80,7 +80,7 @@ function Patients ({ backendURL }) {
 
             <CreatePatientForm backendURL={backendURL} />
         </>
-    );
+    );*/
 
 } export default Patients;
  

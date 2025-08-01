@@ -1,4 +1,5 @@
 function UpdateMedForm({ meds, backendURL, refreshMeds }){
+    return (
     <>
         <h2>Update a Med</h2>
         <form className='cuForm'>
@@ -27,4 +28,6 @@ function UpdateMedForm({ meds, backendURL, refreshMeds }){
 
         <p>This form will allow you to update the quantity of a medication.</p>
         </>
+    );
+
 } export default UpdateMedForm;

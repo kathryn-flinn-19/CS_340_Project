@@ -1,6 +1,7 @@
 function CreatePatientForm(){
+    return(
+    
     <>
-        <p>CreatePatientForm is a work in progress...</p>
         
         <h2>Create a Patient</h2>
 
@@ -43,4 +44,5 @@ function CreatePatientForm(){
             <input type="submit" />
         </form>
     </>
+    );
 } export default CreatePatientForm;

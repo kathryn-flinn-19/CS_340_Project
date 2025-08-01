@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PrescriptionMedTableRow from '../components/PrescriptionMedTableRow';
 
 function PrescriptionMeds({ backendURL }){
     const [prescriptionMeds, setPrescriptionMeds] = useState([]);

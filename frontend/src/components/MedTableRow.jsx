@@ -7,7 +7,6 @@ const MedTableRow = ({ rowObject, backendURL, refreshMeds }) => {
                 <td key={index}>{value}</td>
             ))}
             
-            <UpdateMedForm rowObject={rowObject} backendURL={backendURL} refreshMeds={refreshMeds} />
         </tr>
     );
 };

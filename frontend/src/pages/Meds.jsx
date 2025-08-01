@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+import MedTableRow from '../components/MedTableRow';
 import UpdateMedForm from "../components/UpdateMedForm";
 
 function Meds({ backendURL }){
@@ -57,7 +57,7 @@ function Meds({ backendURL }){
 
                 </tbody>
             </table>
-            
+            <UpdateMedForm meds={meds} backendURL={backendURL} refreshMeds={getData} />
             <p>This page will display all Meds and allow the user to update the quantity of a Med.</p>
         </>
     );

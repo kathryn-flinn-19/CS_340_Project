@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import SaleTableRow from '../components/SaleTableRow';
 
 function Sales({ backendURL }){
     const [sales, setSales] = useState([]);

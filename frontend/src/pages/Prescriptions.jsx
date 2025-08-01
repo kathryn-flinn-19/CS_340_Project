@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+import PrescriptionTableRow from '../components/PrescriptionTableRow';
 import DeletePrescriptionForm from "../components/DeletePrescriptionForm";
 
 function Prescriptions({ backendURL }){

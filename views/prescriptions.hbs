@@ -1,0 +1,42 @@
+<h1>Prescriptions</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each prescriptions.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the id, fname, lname, homeworld and age }}
+        {{#each prescriptions}}
+        <tr>
+            <td>{{this.prescriptionID}}</td>
+            <td>{{this.patientID}}</td>
+            <td>{{this.doctorName}}</td>
+            <td>{{this.dateIssued}}</td>
+            <td>{{this.numRefills}}</td>
+
+             {{! DELETE form }}
+            <form id='delete_prescription_form'>
+                <input type='hidden' name='delete_prescription_id' value='{{this.id}}' />
+                <input type='hidden' name='delete_prescription_patient_info' value='{{this.firstName}} {{this.lastName}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+

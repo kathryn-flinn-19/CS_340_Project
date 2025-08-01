@@ -10,7 +10,11 @@ import { Routes, Route } from 'react-router-dom';
 
 // Pages
 import Home from './pages/Home';
-import BSGPeople from './pages/BSGPeople';
+import Patients from './pages/Patients';
+import Prescriptions from './pages/Prescriptions';
+import PrescriptionMeds from './pages/PrescriptionMeds';
+import Meds from './pages/Meds';
+import Sales from './pages/Sales';
 
 // Components
 import Navigation from './components/Navigation';
@@ -26,7 +30,11 @@ function App() {
             <Navigation />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/bsg-people" element={<BSGPeople backendURL={backendURL} />} />
+                <Route path="/patients" element={<Patients backendURL={backendURL} />} />
+                <Route path="/meds" element={<Meds backendURL={backendURL} />} />
+                <Route path="/prescriptions" element={<Prescriptions backendURL={backendURL} />} />
+                <Route path="/prescription-meds" element={<PrescriptionMeds backendURL={backendURL} />} />
+                <Route path="/sales" element={<Sales backendURL={backendURL} />} />
             </Routes>
         </>
     );

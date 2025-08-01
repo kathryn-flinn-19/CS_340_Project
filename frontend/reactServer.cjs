@@ -1,10 +1,3 @@
-/** SOURCE: Exploration --- Web Application Technology
- * Link: https://canvas.oregonstate.edu/courses/2007765/pages/exploration-web-application-technology-2?module_item_id=25664612
- * Date Accessed: 7/30/2025
- * Notes: We were instructed to copy and paste this code into this file, but I am still
-   citing it anyway for full transparency.
- */
-
 // ########################################
 // ########## SETUP
 
@@ -13,7 +6,7 @@ const path = require('path');
 const app = express();
 app.use(express.static(path.join(__dirname, 'dist')));
 
-const PORT = 50218;
+const PORT = 52147;
 
 // ########################################
 // ########## ROUTE HANDLERS

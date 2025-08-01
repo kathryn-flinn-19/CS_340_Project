@@ -27,21 +27,107 @@ const PORT = 55864;
 // ########## ROUTE HANDLERS
 
 // READ ROUTES
-app.get('/bsg-people', async (req, res) => {
+app.get('/patients', async (req, res) => {
     try {
         // Create and execute our queries
         // In query1, we use a JOIN clause to display the names of the homeworlds
 
-        // note that these queries are not ours!! they will need to be changed at
-        // a later date
-        const query1 = `SELECT bsg_people.id, bsg_people.fname, bsg_people.lname, \
+        /*const query1 = `SELECT bsg_people.id, bsg_people.fname, bsg_people.lname, \
             bsg_planets.name AS 'homeworld', bsg_people.age FROM bsg_people \
             LEFT JOIN bsg_planets ON bsg_people.homeworld = bsg_planets.id;`;
         const query2 = 'SELECT * FROM bsg_planets;';
         const [people] = await db.query(query1);
-        const [homeworlds] = await db.query(query2);
+        const [homeworlds] = await db.query(query2);*/
     
-        res.status(200).json({ people, homeworlds });  // Send the results to the frontend
+        res.status(200).json();  // Send the results to the frontend
+
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        // Send a generic error message to the browser
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+    
+});
+
+app.get('/prescriptions', async (req, res) => {
+    try {
+        // Create and execute our queries
+        // In query1, we use a JOIN clause to display the names of the homeworlds
+
+        /*const query1 = `SELECT bsg_people.id, bsg_people.fname, bsg_people.lname, \
+            bsg_planets.name AS 'homeworld', bsg_people.age FROM bsg_people \
+            LEFT JOIN bsg_planets ON bsg_people.homeworld = bsg_planets.id;`;
+        const query2 = 'SELECT * FROM bsg_planets;';
+        const [people] = await db.query(query1);
+        const [homeworlds] = await db.query(query2);*/
+    
+        res.status(200).json();  // Send the results to the frontend
+
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        // Send a generic error message to the browser
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+    
+});
+
+app.get('/prescription-meds', async (req, res) => {
+    try {
+        // Create and execute our queries
+        // In query1, we use a JOIN clause to display the names of the homeworlds
+
+        /*const query1 = `SELECT bsg_people.id, bsg_people.fname, bsg_people.lname, \
+            bsg_planets.name AS 'homeworld', bsg_people.age FROM bsg_people \
+            LEFT JOIN bsg_planets ON bsg_people.homeworld = bsg_planets.id;`;
+        const query2 = 'SELECT * FROM bsg_planets;';
+        const [people] = await db.query(query1);
+        const [homeworlds] = await db.query(query2);*/
+    
+        res.status(200).json();  // Send the results to the frontend
+
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        // Send a generic error message to the browser
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+    
+});
+
+app.get('/meds', async (req, res) => {
+    try {
+        // Create and execute our queries
+        // In query1, we use a JOIN clause to display the names of the homeworlds
+
+        /*const query1 = `SELECT bsg_people.id, bsg_people.fname, bsg_people.lname, \
+            bsg_planets.name AS 'homeworld', bsg_people.age FROM bsg_people \
+            LEFT JOIN bsg_planets ON bsg_people.homeworld = bsg_planets.id;`;
+        const query2 = 'SELECT * FROM bsg_planets;';
+        const [people] = await db.query(query1);
+        const [homeworlds] = await db.query(query2);*/
+    
+        res.status(200).json();  // Send the results to the frontend
+
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        // Send a generic error message to the browser
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+    
+});
+
+app.get('/sales', async (req, res) => {
+    try {
+        // Create and execute our queries
+        // In query1, we use a JOIN clause to display the names of the homeworlds
+
+        /*const query1 = `SELECT bsg_people.id, bsg_people.fname, bsg_people.lname, \
+            bsg_planets.name AS 'homeworld', bsg_people.age FROM bsg_people \
+            LEFT JOIN bsg_planets ON bsg_people.homeworld = bsg_planets.id;`;
+        const query2 = 'SELECT * FROM bsg_planets;';
+        const [people] = await db.query(query1);
+        const [homeworlds] = await db.query(query2);*/
+    
+        res.status(200).json();  // Send the results to the frontend
 
     } catch (error) {
         console.error("Error executing queries:", error);

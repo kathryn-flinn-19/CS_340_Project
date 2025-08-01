@@ -3,7 +3,11 @@ function Home() {
         <>
             <h1>Home page</h1>
             <div className="homepageDescription">
-                <p>Developer information and Project overview here.</p>
+                <h1>Spark Pharmacy Prescription Management System</h1>
+                
+                <footer>
+                    <p>Group 18: Jahmel Phillips and Kathryn Flinn</p>
+                </footer>
             </div>
         </>
     )

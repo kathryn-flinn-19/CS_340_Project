@@ -18,9 +18,9 @@ const pool = mysql.createPool({
     waitForConnections: true,
     connectionLimit   : 10,
     host              : 'classmysql.engr.oregonstate.edu',
-    user              : `cs340_${USER}`,
-    password          : `${DBPW}`,
-    database          : `cs340_${USER}`
+    user              : `cs340_flinnk`,
+    password          : `LEiCiYuTow10`,
+    database          : `cs340_flinnk`
 }).promise(); // This makes it so we can use async / await rather than callbacks
 
 // Export it for use in our application

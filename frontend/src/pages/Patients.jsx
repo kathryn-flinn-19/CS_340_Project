@@ -1,8 +1,7 @@
 /** SOURCE: Exploration --- Web Application Technology
  * Link: https://canvas.oregonstate.edu/courses/2007765/pages/exploration-web-application-technology-2?module_item_id=25664612
  * Date Accessed: 7/31/2025
- * Notes: We were instructed to copy and paste this code into this file, but I am still
-   citing it anyway for full transparency.
+ * Notes: We were instructed to copy and paste the base code, but I am still citing it anyway for full transparency.
  */
 
 import { useState, useEffect } from 'react';  // Importing useState for managing state in the component

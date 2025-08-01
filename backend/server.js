@@ -29,17 +29,11 @@ const PORT = 55864;
 // READ ROUTES
 app.get('/patients', async (req, res) => {
     try {
-        // Create and execute our queries
-        // In query1, we use a JOIN clause to display the names of the homeworlds
-
-        /*const query1 = `SELECT bsg_people.id, bsg_people.fname, bsg_people.lname, \
-            bsg_planets.name AS 'homeworld', bsg_people.age FROM bsg_people \
-            LEFT JOIN bsg_planets ON bsg_people.homeworld = bsg_planets.id;`;
-        const query2 = 'SELECT * FROM bsg_planets;';
-        const [people] = await db.query(query1);
-        const [homeworlds] = await db.query(query2);*/
+        // Create and execute our queries (basic select for now)
+        const query1 = `SELECT * from Patients;`;
+        const [patients] = await db.query(query1);
     
-        res.status(200).json();  // Send the results to the frontend
+        res.status(200).json(patients);  // Send the results to the frontend
 
     } catch (error) {
         console.error("Error executing queries:", error);
@@ -52,16 +46,10 @@ app.get('/patients', async (req, res) => {
 app.get('/prescriptions', async (req, res) => {
     try {
         // Create and execute our queries
-        // In query1, we use a JOIN clause to display the names of the homeworlds
-
-        /*const query1 = `SELECT bsg_people.id, bsg_people.fname, bsg_people.lname, \
-            bsg_planets.name AS 'homeworld', bsg_people.age FROM bsg_people \
-            LEFT JOIN bsg_planets ON bsg_people.homeworld = bsg_planets.id;`;
-        const query2 = 'SELECT * FROM bsg_planets;';
-        const [people] = await db.query(query1);
-        const [homeworlds] = await db.query(query2);*/
+        const query1 = `SELECT * from Prescriptions;`;
+        const [prescriptions] = await db.query(query1);
     
-        res.status(200).json();  // Send the results to the frontend
+        res.status(200).json(prescriptions);  // Send the results to the frontend
 
     } catch (error) {
         console.error("Error executing queries:", error);
@@ -74,16 +62,10 @@ app.get('/prescriptions', async (req, res) => {
 app.get('/prescription-meds', async (req, res) => {
     try {
         // Create and execute our queries
-        // In query1, we use a JOIN clause to display the names of the homeworlds
-
-        /*const query1 = `SELECT bsg_people.id, bsg_people.fname, bsg_people.lname, \
-            bsg_planets.name AS 'homeworld', bsg_people.age FROM bsg_people \
-            LEFT JOIN bsg_planets ON bsg_people.homeworld = bsg_planets.id;`;
-        const query2 = 'SELECT * FROM bsg_planets;';
-        const [people] = await db.query(query1);
-        const [homeworlds] = await db.query(query2);*/
-    
-        res.status(200).json();  // Send the results to the frontend
+        
+        const query1 = `SELECT * from PrescriptionMeds;`;
+        const [prescriptionMeds] = await db.query(query1);
+        res.status(200).json(prescriptionMeds);  // Send the results to the frontend
 
     } catch (error) {
         console.error("Error executing queries:", error);
@@ -96,16 +78,11 @@ app.get('/prescription-meds', async (req, res) => {
 app.get('/meds', async (req, res) => {
     try {
         // Create and execute our queries
-        // In query1, we use a JOIN clause to display the names of the homeworlds
 
-        /*const query1 = `SELECT bsg_people.id, bsg_people.fname, bsg_people.lname, \
-            bsg_planets.name AS 'homeworld', bsg_people.age FROM bsg_people \
-            LEFT JOIN bsg_planets ON bsg_people.homeworld = bsg_planets.id;`;
-        const query2 = 'SELECT * FROM bsg_planets;';
-        const [people] = await db.query(query1);
-        const [homeworlds] = await db.query(query2);*/
+        const query1 = `SELECT * from Meds;`;
+        const [meds] = await db.query(query1);
     
-        res.status(200).json();  // Send the results to the frontend
+        res.status(200).json(meds);  // Send the results to the frontend
 
     } catch (error) {
         console.error("Error executing queries:", error);
@@ -118,16 +95,11 @@ app.get('/meds', async (req, res) => {
 app.get('/sales', async (req, res) => {
     try {
         // Create and execute our queries
-        // In query1, we use a JOIN clause to display the names of the homeworlds
-
-        /*const query1 = `SELECT bsg_people.id, bsg_people.fname, bsg_people.lname, \
-            bsg_planets.name AS 'homeworld', bsg_people.age FROM bsg_people \
-            LEFT JOIN bsg_planets ON bsg_people.homeworld = bsg_planets.id;`;
-        const query2 = 'SELECT * FROM bsg_planets;';
-        const [people] = await db.query(query1);
-        const [homeworlds] = await db.query(query2);*/
+        
+        const query1 = `SELECT * from Sales;`;
+        const [sales] = await db.query(query1);
     
-        res.status(200).json();  // Send the results to the frontend
+        res.status(200).json(sales);  // Send the results to the frontend
 
     } catch (error) {
         console.error("Error executing queries:", error);

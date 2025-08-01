@@ -32,8 +32,8 @@ app.get('/patients', async (req, res) => {
         // Create and execute our queries (basic select for now)
         const query1 = `SELECT * from Patients;`;
         const [patients] = await db.query(query1);
-    
-        res.status(200).json(patients);  // Send the results to the frontend
+
+        res.status(200).json({ patients });  // Send the results to the frontend
 
     } catch (error) {
         console.error("Error executing queries:", error);

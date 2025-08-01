@@ -11,18 +11,24 @@ import CreatePatientForm from '../components/CreatePatientForm';
 
 function Patients ({ backendURL }) {
 
-    // Set up a state variable `patients` to store and display the backend response
+    /*// Set up a state variable `patients` to store and display the backend response
     const [patients, setPatients] = useState([]);
 
 
     const getData = async function () {
         try {
             // Make a GET request to the backend
+            console.log(backendURL + '/patients');
+
             const response = await fetch(backendURL + '/patients');
+
+            console.log(response);
             
             // Convert the response into JSON format
-            const { patients } = await response.json();
+            const {patients} = await response.json();
     
+            console.log(patients);
+
             // Update the patients state with the response data
             setPatients(patients);
             
@@ -63,6 +69,16 @@ function Patients ({ backendURL }) {
             <CreatePatientForm backendURL={backendURL} refreshPatients={getData} />
 
             <p>This page will display the Patient information and allow the user to create a new Patient.</p>
+        </>
+    );*/
+
+    return (
+        <>
+            <h1>Patients</h1>
+            
+            <p>This page will display the Patient information and allow the user to create a new Patient.</p>
+
+            <CreatePatientForm backendURL={backendURL} />
         </>
     );
 

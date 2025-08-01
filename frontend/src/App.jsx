@@ -20,7 +20,7 @@ import Sales from './pages/Sales';
 import Navigation from './components/Navigation';
 
 // Define the backend port and URL for API requests
-const backendPort = 55864;  // Use the port you assigned to the backend server, this would normally go in a .env file
+const backendPort = 52810;  // Use the port you assigned to the backend server, this would normally go in a .env file
 const backendURL = `http://classwork.engr.oregonstate.edu:${backendPort}`;
 
 function App() {

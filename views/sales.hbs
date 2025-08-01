@@ -1,0 +1,27 @@
+<h1>Sales</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each sales.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each sales}}
+        <tr>
+            <td>{{this.saleID}}</td>
+            <td>{{this.prescriptionID}}</td>
+            <td>{{this.saleDate}}</td>
+            <td>{{this.totalAmount}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

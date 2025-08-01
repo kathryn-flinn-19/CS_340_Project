@@ -1,0 +1,29 @@
+<h1>PrescriptionMeds</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each prescriptionMeds.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each prescriptionMeds}}
+        <tr>
+            <td>{{this.ID}}</td>
+            <td>{{this.prescriptionID}}</td>
+            <td>{{this.medicationID}}</td>
+            <td>{{this.quantityFilled}}</td>
+            <td>{{this.dateFilled}}</td>
+            <td>{{this.subTotal}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

@@ -10,7 +10,6 @@
                 {{@key}}
             </th>
             {{/each}}
-            <th></th>
         </tr>
     </thead>
 
@@ -28,27 +27,3 @@
         {{/each}}
     </tbody>
 </table>
-
-{{! UPDATE form }}
-<h2>Update a Med</h2>
-<form class='cuForm' id='update_med_form'>
-    <label for='update_med_id'>Med to Update: </label>
-    <select name='update_med_id' id='update_med_id' required>
-        <option value='' disabled selected>Select a Med</option>
-        {{#each meds}}
-        <option value='{{this.medicationID}}' required>
-            {{this.medicationID}}
-            -
-            {{this.name}}
-            {{this.dosageForm}}
-            {{this.dosageStrength}}
-            {{this.dosageUnit}}
-        </option>
-        {{/each}}
-    </select>
-
-    <label for='update_med_quantity'>Quantity: </label>
-    <input type='number' name='update_med_quantity' id='update_med_quantity' min='0' />
-
-    <input type='submit' />
-</form>

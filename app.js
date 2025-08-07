@@ -1,3 +1,11 @@
+/**
+ * Source: https://www.geeksforgeeks.org/web-tech/express-js-res-redirect-function/
+ * Reason for Use: I used the above website to figure out how to automatically redirect
+                    to another page after a new PrescriptionMed is deleted. I just needed
+                    the function syntax.
+ * Date accessed: 8/7/2025
+ */
+
 // ########################################
 // ########## SETUP
 
@@ -8,7 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-const PORT = 50348;
+//const PORT = 50348;
+const PORT = 52148;
 
 // Database
 const db = require('./database/db-connector');
@@ -115,15 +124,70 @@ app.get('/prescription-meds', async function (req, res) {
         const query1 = `SELECT ID, prescriptionID, Meds.name AS medicationID, quantityFilled, dateFilled, subTotal FROM PrescriptionMeds INNER JOIN Meds ON PrescriptionMeds.medicationID = Meds.medicationID;`;
         const [prescriptionMeds] = await db.query(query1);
 
+        const query2 = `SELECT * FROM Meds`;
+        const [meds] = await db.query(query2);
+
         // Render the bsg-people.hbs file, and also send the renderer
         //  an object that contains our bsg_people and bsg_homeworld information
-        res.render('prescription-meds', { prescriptionMeds: prescriptionMeds });
+        res.render('prescription-meds', { prescriptionMeds: prescriptionMeds, meds: meds });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
         res.status(500).send(
             'An error occurred while executing the database queries.'
         );
+    }
+});
+
+app.get('/prescription-meds/update/:id', async function (req, res){
+    try {
+        const query1 = `SELECT PrescriptionMeds.ID, prescriptionID, Meds.name AS medicationID, quantityFilled, \ 
+        dateFilled, subTotal FROM PrescriptionMeds INNER JOIN Meds ON PrescriptionMeds.medicationID = Meds.medicationID \
+        AND PrescriptionMeds.ID = ${req.params.id};`;
+        const [prescriptionMedInfo] = await db.query(query1);
+
+        const query2 = `SELECT * FROM Meds`;
+        const [meds] = await db.query(query2);
+
+        // Render the bsg-people.hbs file, and also send the renderer
+        //  an object that contains our bsg_people and bsg_homeworld information
+        res.render('prescription-med-update', { prescriptionMedInfo: prescriptionMedInfo, meds: meds });
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
+    }
+});
+
+app.get('/prescription-meds/delete/', async function(req, res) {
+    try {
+        const query1 = `CALL sp_delete_prescription_med(${req.query.delete_prescriptionMed_id})`;
+        await db.query(query1);
+
+        res.redirect('/prescription-meds');
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
+    }
+});
+
+app.get('/reset', async function(req, res) {
+    try {
+        const query1 = `CALL sp_load_pharmdb();`;
+        await db.query(query1);
+
+        // redirect to home page
+        res.redirect('/');
+    } catch (error) {
+        console.error('Error executing queries: ', error);
+
+        res.status(500).send('An error occured while executing the database queries.');
     }
 });
 

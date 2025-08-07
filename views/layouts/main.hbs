@@ -1,9 +1,17 @@
+{{! Citation: 
+    Source: https://stackoverflow.com/questions/41723512/css-not-loading-with-req-params-or-maybe-something-else
+    Reason for Use: My /prescription-meds/update/:id endpoint was incorrectly selecting style.css as 
+        something that matched :id, which was messing with that page. Using the above source, I 
+        found that the solution was to add a single / before style.css in href="style.css".
+    Date Accessed: 8/6/2025
+}}
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <title>CS340 - Sparks Pharmacy Prescription Management System</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <nav>
@@ -14,6 +22,7 @@
         <a href="/meds">Meds</a>
         <a href="/prescription-meds">PrescriptionMeds</a>
         <a href="/sales">Sales</a>
+        <a href="/reset">Reset to sample data</a>
     </nav>
 
     {{{body}}}

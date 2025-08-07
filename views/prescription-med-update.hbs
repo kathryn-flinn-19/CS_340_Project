@@ -1,0 +1,37 @@
+{{! UPDATE form }}
+<h1>Update a Prescription Med</h1>
+<form class='cuForm' id='update_prescriptionMed_form'>
+    <label for='update_prescriptionMed_prescriptionID'>Prescription ID: </label>
+    <input type='number' name='update_prescriptionMed_prescriptionID' id='update_prescriptionMed_prescriptionID' 
+    value='{{prescriptionMedInfo.[0].prescriptionID}}' min='0' required='true' />
+
+    <label for='update_prescriptionMed_med'>Medication: </label>
+    <select name='update_prescriptionMed_med' id='update_prescriptionMed_med' required>
+        {{#each meds}}
+        {{! note --- find a way to mess with default select option}}
+        <option value='{{this.id}}' >
+            {{this.id}}
+            {{this.name}}
+            {{this.dosageForm}}
+            {{this.dosageStrength}}
+            {{this.dosageUnit}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_prescriptionMed_quantity'>Quantity: </label>
+    <input type='number' name='update_prescriptionMed_quantity' id='update_prescriptionMed_quantity' 
+        value='{{prescriptionMedInfo.[0].quantityFilled}}' required='true' />
+
+    {{! Note to self --- figure out how to extract only the date part from the date value (i.e. no time,
+        day of week, etc. )}}
+    <label for='update_prescriptionMed_dateFilled'>Date Filled: </label>
+    <input type='text' name='update_prescriptionMed_dateFilled' id='update_prescriptionMed_dateFilled' 
+        value='{{prescriptionMedInfo.[0].dateFilled}}' placeholder='YYYY-MM-DD' required='true' />
+
+    <label for='update_prescriptionMed_subtotal'>Subtotal: </label>
+    <input type='number' name='update_prescriptionMed_subtotal' id='update_prescriptionMed_subtotal' 
+        value='{{prescriptionMedInfo.[0].subTotal}}' required='true' />
+
+    <input type='submit' />
+</form>

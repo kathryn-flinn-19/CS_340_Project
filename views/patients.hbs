@@ -10,7 +10,6 @@
                 {{@key}}
             </th>
             {{/each}}
-            <th></th>
         </tr>
     </thead>
 
@@ -29,24 +28,3 @@
         {{/each}}
     </tbody>
 </table>
-
-{{! CREATE form }}
-<h2>Create a Patient</h2>
-<form class='cuForm' id='create_patient_form'>
-    <label for='create_patient_fname'>First Name: </label>
-    <input type='text' name='create_patient_fname' id='create_patient_fname' required />
-
-    <label for='create_patient_lname'>Last Name: </label>
-    <input type='text' name='create_patient_lname' id='create_patient_lname' />
-
-    <label for='create_patient_birth_date'>Birth Date: </label>
-    <input type='text' name='create_patient_birth_date' id='create_patient_birth_date'  placeholder='YYYY-MM-DD' required />
-
-    <label for='create_patient_phone_number'>Phone Number:</label>
-    <input type='number' name='create_patient_phone_number' id='create_patient_phone_number' min='0' />
-
-    <label for='create_patient_email_address' >Email Address</label>
-    <input type='text' name='create_patient_email_address' id='create_patient_email_address' />
-
-    <input type='submit' />
-</form>

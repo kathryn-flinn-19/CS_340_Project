@@ -1,3 +1,7 @@
+body {
+    background-color: rgb(255, 241, 218);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 h1, h2 { margin-left: 16px;}
 table {border-collapse: collapse;margin-left: 32px;}
 th, td {
@@ -5,10 +9,29 @@ th, td {
     padding: 12px;
     text-align: center;
 }
-th {background-color: #f2f2f2;}
-tr:nth-child(even) {background-color: #f9f9f9;}
+th {
+    background-color: rgb(255, 205, 149);
+}
+tr:nth-child(even) {
+    background-color: rgb(255, 228, 201);
+}
+tr:nth-child(odd) {
+    background-color: #fefcf9;
+}
 .cuForm { margin-left: 32px;}
 input, select { margin-bottom: 4px;margin-right: 12px;}
-nav {background-color: #cecece;padding: 16px;}
-a {margin-left: 16px;}
+nav {
+    background-color: rgb(252, 182, 91);
+    padding: 16px;
+}
+a {
+    margin-left: 16px;
+    color: rgb(189, 51, 0);
+}
+a:active {
+    color: rgb(255, 196, 0);
+}
+a:visited {
+    color: rgb(119, 32, 0);
+}
 .homepageDescription {margin-left: 32px;}

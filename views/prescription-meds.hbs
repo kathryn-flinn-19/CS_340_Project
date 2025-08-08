@@ -46,39 +46,31 @@
 <h2>Add a PrescriptionMed</h2>
 <form class='cuForm' id='create_prescriptionMed_form'>
     <label for='create_prescriptionMed_med'>Medication: </label>
-    <select name='create_prescriptionMed_med' id='create_prescriptionMed_med' required>
-        {{#each meds}}
-        {{! note --- find a way to mess with default select option}}
-        <option value='{{this.id}}' >
-            {{this.id}}
-            {{this.name}}
-        </option>
-        {{/each}}
-    </select>
+    <input type='text' name='create_prescriptionMed_med' id='create_prescriptionMed_med' required /> <br>
 
     <label for='create_prescriptionMed_dosageForm'>Dosage Form: </label>
     <input type='text' name='create_prescriptionMed_dosageForm' id='create_prescriptionMed_dosageForm' 
-        placeholder='e.g. Capsule, Liquid, Pill' required>
+        placeholder='e.g. Capsule, Liquid, Pill' required> <br>
 
     <label for='create_prescriptionMed_dosageStrength'>Dosage Strength: </label>
-    <input type='number' name='create_prescriptionMed_dosageStrength' id='create_prescriptionMed_dosageStrength' required>
+    <input type='number' name='create_prescriptionMed_dosageStrength' id='create_prescriptionMed_dosageStrength' required> <br>
 
     <label for='create_prescriptionMed_dosageUnit'>Dosage Unit: </label>
     <input type='text' name='create_prescriptionMed_dosageUnit' id='create_prescriptionMed_dosageUnit' 
-        placeholder='e.g. mg, mL' required>
+        placeholder='e.g. mg, mL' required> <br>
 
     <label for='create_prescriptionMed_prescriptionID'>PrescriptionID: </label>
-    <input type='number' name='create_prescriptionMed_prescriptionID' id='create_prescriptionMed_prescriptionID' />
+    <input type='number' name='create_prescriptionMed_prescriptionID' id='create_prescriptionMed_prescriptionID' /> <br>
 
     <label for='create_prescriptionMed_quantity'>Quantity:</label>
-    <input type='number' name='create_prescriptionMed_quantity' id='create_prescriptionMed_quantity' min='0' />
+    <input type='number' name='create_prescriptionMed_quantity' id='create_prescriptionMed_quantity' min='0' /> <br>
 
     <label for='create_prescriptionMed_dateFilled'>Date Filled:</label>
     <input type='text' name='create_prescriptionMed_dateFilled' id='create_prescriptionMed_dateFilled' min='0' 
-        placeholder='YYYY-MM-DD' />
+        placeholder='YYYY-MM-DD' /> <br>
     
     <label for='create_prescriptionMed_subTotal'>Subtotal:</label>
-    <input type='number' name='create_prescriptionMed_subTotal' id='create_prescriptionMed_subTotal' min='0'/>
+    <input type='number' name='create_prescriptionMed_subTotal' id='create_prescriptionMed_subTotal' min='0'/> <br>
 
     <input type='submit' />
 </form>

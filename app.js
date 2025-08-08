@@ -16,8 +16,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-//const PORT = 50348;
-const PORT = 52148;
+// production port 
+const PORT = 50348;
+
+// development port 
+//const PORT = 52028;
 
 // Database
 const db = require('./database/db-connector');
@@ -48,8 +51,6 @@ app.get('/patients', async function (req, res) {
         const query1 = `SELECT patientID, firstName, lastName, birthDate, phoneNumber, emailAddress FROM Patients;`;
         const [patients] = await db.query(query1);
 
-        // Render the bsg-people.hbs file, and also send the renderer
-        //  an object that contains our bsg_people and bsg_homeworld information
         res.render('patients', { patients: patients });
     } catch (error) {
         console.error('Error executing queries:', error);
@@ -67,8 +68,6 @@ app.get('/prescriptions', async function (req, res) {
         const query1 = `SELECT prescriptionID, concat(Patients.firstName,' ',Patients.lastName) AS patientID, doctorName, dateIssued, numRefills FROM Prescriptions INNER JOIN Patients ON Prescriptions.patientID = Patients.patientID;`;
         const [prescriptions] = await db.query(query1);
 
-        // Render the bsg-people.hbs file, and also send the renderer
-        //  an object that contains our bsg_people and bsg_homeworld information
         res.render('prescriptions', { prescriptions: prescriptions });
     } catch (error) {
         console.error('Error executing queries:', error);
@@ -86,8 +85,6 @@ app.get('/meds', async function (req, res) {
         const query1 = `SELECT medicationID, name, dosageForm, dosageStrength, dosageUnit, quantity FROM Meds;`;
         const [meds] = await db.query(query1);
 
-        // Render the bsg-people.hbs file, and also send the renderer
-        //  an object that contains our bsg_people and bsg_homeworld information
         res.render('meds', { meds: meds });
     } catch (error) {
         console.error('Error executing queries:', error);
@@ -105,8 +102,6 @@ app.get('/sales', async function (req, res) {
         const query1 = `SELECT saleID, prescriptionID, saleDate, totalAmount FROM Sales`;
         const [sales] = await db.query(query1);
 
-        // Render the bsg-people.hbs file, and also send the renderer
-        //  an object that contains our bsg_people and bsg_homeworld information
         res.render('sales', { sales: sales });
     } catch (error) {
         console.error('Error executing queries:', error);
@@ -126,9 +121,7 @@ app.get('/prescription-meds', async function (req, res) {
 
         const query2 = `SELECT * FROM Meds`;
         const [meds] = await db.query(query2);
-
-        // Render the bsg-people.hbs file, and also send the renderer
-        //  an object that contains our bsg_people and bsg_homeworld information
+    
         res.render('prescription-meds', { prescriptionMeds: prescriptionMeds, meds: meds });
     } catch (error) {
         console.error('Error executing queries:', error);
@@ -141,17 +134,13 @@ app.get('/prescription-meds', async function (req, res) {
 
 app.get('/prescription-meds/update/:id', async function (req, res){
     try {
-        const query1 = `SELECT PrescriptionMeds.ID, prescriptionID, Meds.name AS medicationID, quantityFilled, \ 
-        dateFilled, subTotal FROM PrescriptionMeds INNER JOIN Meds ON PrescriptionMeds.medicationID = Meds.medicationID \
+        const query = `SELECT PrescriptionMeds.ID, prescriptionID, Meds.name AS medicationID, Meds.dosageForm, \ 
+        Meds.dosageStrength, Meds.dosageUnit, quantityFilled, dateFilled, subTotal \ 
+        FROM PrescriptionMeds JOIN Meds ON PrescriptionMeds.medicationID = Meds.medicationID \
         AND PrescriptionMeds.ID = ${req.params.id};`;
-        const [prescriptionMedInfo] = await db.query(query1);
+        const [prescriptionMedInfo] = await db.query(query);
 
-        const query2 = `SELECT * FROM Meds`;
-        const [meds] = await db.query(query2);
-
-        // Render the bsg-people.hbs file, and also send the renderer
-        //  an object that contains our bsg_people and bsg_homeworld information
-        res.render('prescription-med-update', { prescriptionMedInfo: prescriptionMedInfo, meds: meds });
+        res.render('prescription-med-update', { prescriptionMedInfo: prescriptionMedInfo });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser

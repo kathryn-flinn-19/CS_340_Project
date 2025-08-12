@@ -1,25 +1,22 @@
 {{! UPDATE form }}
 <h1>Update a Prescription Med</h1>
-<form class='cuForm' id='update_prescriptionMed_form'>
+<form class='cuForm' id='update_prescriptionMed_form' method='POST' action='/prescription-meds/update/{{prescriptionMedInfo.[0].ID}}'>
     <label for='update_prescriptionMed_prescriptionID'>Prescription ID: </label>
     <input type='number' name='update_prescriptionMed_prescriptionID' id='update_prescriptionMed_prescriptionID' 
     value='{{prescriptionMedInfo.[0].prescriptionID}}' min='0' required='true' /> <br>
 
-    <label for='update_prescriptionMed_med'>Medication: </label>
-    <input type='text' name='update_prescriptionMed_med' id='update_prescriptionMed_med' 
-        value='{{prescriptionMedInfo.[0].medicationID}}' required /> <br>
+    <label for='update_prescriptionMed_info'>Medication: </label>
+    <select for='update_prescriptionMed_info' name='update_prescriptionMed_info' id='update_prescriptionMed_info'>
+        <option value='{{selectedMed.[0].medicationID}}' selected>
+            {{selectedMed.[0].info}}
+        </option>
 
-    <label for='update_prescriptionMed_dosageForm'>Dosage Form: </label>
-    <input type='text' name='update_prescriptionMed_dosageForm' id='update_prescriptionMed_dosageForm' 
-        placeholder='e.g. Capsule, Liquid, Pill' value='{{prescriptionMedInfo.[0].dosageForm}}' required /> <br>
-
-    <label for='update_prescriptionMed_dosageStrength'>Dosage Strength: </label>
-    <input type='number' name='update_prescriptionMed_dosageStrength' id='update_prescriptionMed_dosageStrength' 
-        value='{{prescriptionMedInfo.[0].dosageStrength}}' required /> <br>
-
-    <label for='update_prescriptionMed_dosageUnit'>Dosage Unit: </label>
-    <input type='text' name='update_prescriptionMed_dosageUnit' id='update_prescriptionMed_dosageUnit' 
-        placeholder='e.g. mg, mL' value='{{prescriptionMedInfo.[0].dosageUnit}}' required /> <br>
+        {{#each otherMeds}}
+            <option value='{{this.medicationID}}'>
+                {{this.info}}
+            </option>
+        {{/each}}
+    </select> <br>
 
     <label for='update_prescriptionMed_quantity'>Quantity: </label>
     <input type='number' name='update_prescriptionMed_quantity' id='update_prescriptionMed_quantity' 
@@ -28,12 +25,12 @@
     {{! Note to self --- figure out how to extract only the date part from the date value (i.e. no time,
         day of week, etc. )}}
     <label for='update_prescriptionMed_dateFilled'>Date Filled: </label>
-    <input type='text' name='update_prescriptionMed_dateFilled' id='update_prescriptionMed_dateFilled' 
-        value='{{prescriptionMedInfo.[0].dateFilled}}' placeholder='YYYY-MM-DD' required /> <br>
+    <input type='date' name='update_prescriptionMed_dateFilled' id='update_prescriptionMed_dateFilled' 
+        value='{{prescriptionMedInfo.[0].dateFilled}}' /> <br>
 
     <label for='update_prescriptionMed_subtotal'>Subtotal: </label>
     <input type='number' name='update_prescriptionMed_subtotal' id='update_prescriptionMed_subtotal' 
-        value='{{prescriptionMedInfo.[0].subTotal}}' required /> <br>
+        value='{{prescriptionMedInfo.[0].subTotal}}' step='.01' required /> <br>
 
     <input type='submit' />
 </form>

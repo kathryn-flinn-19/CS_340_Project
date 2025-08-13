@@ -120,7 +120,10 @@ app.get('/prescriptions', async function (req, res) {
     try {
         
         // grabbing prescription info AND the name of the patient each is associated with
-        const query1 = `SELECT prescriptionID, Prescriptions.patientID, concat(Patients.firstName,' ',Patients.lastName) AS patientName, doctorName, dateIssued, numRefills FROM Prescriptions INNER JOIN Patients ON Prescriptions.patientID = Patients.patientID;`;
+        const query1 = `SELECT prescriptionID, Prescriptions.patientID, \
+            concat(Patients.firstName,' ',Patients.lastName) AS patientName, doctorName, \
+            dateIssued, numRefills FROM Prescriptions \
+            JOIN Patients ON Prescriptions.patientID = Patients.patientID;`;
         const [prescriptions] = await db.query(query1);
 
         // again formatting the dates
@@ -180,8 +183,10 @@ app.get('/prescription-meds', async function (req, res) {
     try {
         
         // grabbing prescriptionMed info w/ the info about its med as well
-        const query1 = `SELECT ID, prescriptionID, PrescriptionMeds.medicationID, concat(name, ' ', dosageForm, ' ', dosageStrength, ' ', dosageUnit) as medInfo, \
-            quantityFilled, dateFilled, subTotal FROM PrescriptionMeds JOIN Meds ON PrescriptionMeds.medicationID = Meds.medicationID;`;
+        const query1 = `SELECT ID, prescriptionID, PrescriptionMeds.medicationID, \
+            concat(name, ' ', dosageForm, ' ', dosageStrength, ' ', dosageUnit) as medInfo, \
+            quantityFilled, dateFilled, subTotal FROM PrescriptionMeds \
+            JOIN Meds ON PrescriptionMeds.medicationID = Meds.medicationID;`;
         const [prescriptionMeds] = await db.query(query1);
 
         // formatting dates
@@ -193,8 +198,8 @@ app.get('/prescription-meds', async function (req, res) {
         const [meds] = await db.query(query2);
     
         // grabbing all prescriptions for our create form prescription dropdown
-        const query3 = `SELECT prescriptionID, dateIssued, concat(firstName, ' ', lastName) as name, birthDate FROM Prescriptions \
-            JOIN Patients ON Prescriptions.patientID = Patients.patientID;`;
+        const query3 = `SELECT prescriptionID, dateIssued, concat(firstName, ' ', lastName) as name, \
+            birthDate FROM Prescriptions JOIN Patients ON Prescriptions.patientID = Patients.patientID;`;
         const [prescriptions] = await db.query(query3);
 
         // formatting the dates
@@ -202,7 +207,11 @@ app.get('/prescription-meds', async function (req, res) {
         formatDates(prescriptions, 'birthDate');
 
         // rendering prescription-meds page
-        res.render('prescription-meds', { prescriptionMeds: prescriptionMeds, meds: meds, prescriptions: prescriptions });
+        res.render('prescription-meds', { 
+            prescriptionMeds: prescriptionMeds, 
+            meds: meds, 
+            prescriptions: prescriptions 
+        });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -215,57 +224,65 @@ app.get('/prescription-meds', async function (req, res) {
 // for loading the update page
 app.get('/prescription-meds/update/:id', async function (req, res){
     try {
-        // grabbing all info about the PrescriptionMed given by req.params.id
-        const query1 = `SELECT PrescriptionMeds.ID, PrescriptionMeds.medicationID, prescriptionID, quantityFilled, dateFilled, subTotal \ 
-            FROM PrescriptionMeds JOIN Meds ON PrescriptionMeds.medicationID = Meds.medicationID \
-            AND PrescriptionMeds.ID = ${req.params.id};`;
-        const [prescriptionMedInfo] = await db.query(query1);
-
-        // formatting date in YYYY-MM-DD
-        formatDates(prescriptionMedInfo, 'dateFilled');
-
-        // grabbing info about the medication the PrescriptionMed is associated with --- this will be the default selected
-        // option in our medication dropdown in the update form
-        const query2 = `SELECT Meds.medicationID, concat(Meds.name, ' ', Meds.dosageForm, ' ', Meds.dosageStrength, ' ', \
-            Meds.dosageUnit) AS info FROM Meds \
-            WHERE Meds.medicationID = (SELECT medicationID FROM PrescriptionMeds \
-                WHERE PrescriptionMeds.ID = ${req.params.id});`;
-        const [selectedMed] = await db.query(query2);
-
-        // grabs all other meds that AREN'T the selected one, to populate the rest of the select options for the medication
-        const query3 = `SELECT Meds.medicationID, concat(Meds.name, ' ', Meds.dosageForm, ' ', Meds.dosageStrength, ' ', \
-            Meds.dosageUnit) AS info FROM Meds \
-            WHERE NOT Meds.medicationID = (SELECT medicationID FROM PrescriptionMeds \
-                WHERE PrescriptionMeds.ID = ${req.params.id}) ORDER BY Meds.medicationID;`;
-        const [otherMeds] = await db.query(query3);
-
-        // grabbing info about the selected prescription (making sure to get more than the id, so we can actually identify which 
-        // prescription is which). this will be the default selected option for the prescription dropdown in the update form
-        const query4 = `SELECT prescriptionID, dateIssued, concat(firstName, ' ', lastName) as name, birthDate FROM Prescriptions \
-            JOIN Patients ON Prescriptions.patientID = Patients.patientID AND Prescriptions.prescriptionID = ${prescriptionMedInfo[0].prescriptionID};`;
-        const [selectedPrescription] = await db.query(query4);
-
-        // have to format the dates
-        formatDates(selectedPrescription, 'dateIssued');
-        formatDates(selectedPrescription, 'birthDate');
+        // gotta make sure the id value in the url is actually a number and that someone
+        // isn't trying to do something fishy (i.e. sql injection)
+        if(isNaN(parseInt(req.params.id))){
+            res.redirect('/prescription-meds');
+        } else {
         
-        // grabbing the rest of the prescriptions to populate the rest of the prescription dropdown's options
-        const query5 = `SELECT prescriptionID, dateIssued, concat(firstName, ' ', lastName) as name, birthDate FROM Prescriptions \
-            JOIN Patients ON Prescriptions.patientID = Patients.patientID AND NOT Prescriptions.prescriptionID = ${prescriptionMedInfo[0].prescriptionID};`;
-        const [otherPrescriptions] = await db.query(query5);
+            // grabbing all info about the PrescriptionMed given by req.params.id
+            const query1 = `SELECT PrescriptionMeds.ID, PrescriptionMeds.medicationID, \
+                prescriptionID, quantityFilled, dateFilled, subTotal \ 
+                FROM PrescriptionMeds JOIN Meds ON PrescriptionMeds.medicationID = Meds.medicationID \
+                AND PrescriptionMeds.ID = ${req.params.id};`;
+            const [prescriptionMedInfo] = await db.query(query1);
 
-        // again have to format the dates
-        formatDates(otherPrescriptions, 'dateIssued');
-        formatDates(otherPrescriptions, 'birthDate');
+            // formatting date in YYYY-MM-DD
+            formatDates(prescriptionMedInfo, 'dateFilled');
 
-        // rendering the page and setting up all of the stuff we grabbed above
-        res.render('prescription-med-update', 
-            { prescriptionMedInfo: prescriptionMedInfo, 
-              selectedMed: selectedMed, 
-              otherMeds: otherMeds, 
-              selectedPrescription: selectedPrescription,
-              otherPrescriptions: otherPrescriptions 
-            });
+            // grabbing info about the medication the PrescriptionMed is associated with --- this will be the default selected
+            // option in our medication dropdown in the update form
+            const query2 = `SELECT Meds.medicationID, concat(Meds.name, ' ', Meds.dosageForm, ' ', \
+                Meds.dosageStrength, ' ', Meds.dosageUnit) AS info FROM Meds \
+                WHERE Meds.medicationID = (SELECT medicationID FROM PrescriptionMeds \
+                    WHERE PrescriptionMeds.ID = ${req.params.id});`;
+            const [selectedMed] = await db.query(query2);
+
+            // grabs all other meds that AREN'T the selected one, to populate the rest of the select options for the medication
+            const query3 = `SELECT Meds.medicationID, concat(Meds.name, ' ', Meds.dosageForm, ' ', Meds.dosageStrength, ' ', \
+                Meds.dosageUnit) AS info FROM Meds \
+                WHERE NOT Meds.medicationID = (SELECT medicationID FROM PrescriptionMeds \
+                    WHERE PrescriptionMeds.ID = ${req.params.id}) ORDER BY Meds.medicationID;`;
+            const [otherMeds] = await db.query(query3);
+
+            // grabbing info about the selected prescription (making sure to get more than the id, so we can actually identify which 
+            // prescription is which). this will be the default selected option for the prescription dropdown in the update form
+            const query4 = `SELECT prescriptionID, dateIssued, concat(firstName, ' ', lastName) as name, birthDate FROM Prescriptions \
+                JOIN Patients ON Prescriptions.patientID = Patients.patientID AND Prescriptions.prescriptionID = ${prescriptionMedInfo[0].prescriptionID};`;
+            const [selectedPrescription] = await db.query(query4);
+
+            // have to format the dates
+            formatDates(selectedPrescription, 'dateIssued');
+            formatDates(selectedPrescription, 'birthDate');
+            
+            // grabbing the rest of the prescriptions to populate the rest of the prescription dropdown's options
+            const query5 = `SELECT prescriptionID, dateIssued, concat(firstName, ' ', lastName) as name, birthDate FROM Prescriptions \
+                JOIN Patients ON Prescriptions.patientID = Patients.patientID AND NOT Prescriptions.prescriptionID = ${prescriptionMedInfo[0].prescriptionID};`;
+            const [otherPrescriptions] = await db.query(query5);
+
+            // again have to format the dates
+            formatDates(otherPrescriptions, 'dateIssued');
+            formatDates(otherPrescriptions, 'birthDate');
+
+            // rendering the page and setting up all of the stuff we grabbed above
+            res.render('prescription-med-update', 
+                { prescriptionMedInfo: prescriptionMedInfo, 
+                selectedMed: selectedMed, 
+                otherMeds: otherMeds, 
+                selectedPrescription: selectedPrescription,
+                otherPrescriptions: otherPrescriptions 
+                });
+        }
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser

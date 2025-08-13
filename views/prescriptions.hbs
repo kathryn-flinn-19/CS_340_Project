@@ -1,3 +1,9 @@
+{{! Citation
+    Source: https://canvas.oregonstate.edu/courses/2007765/pages/exploration-web-application-technology-2?module_item_id=25664612
+    Reason for Use / Level of Originality: I used the template code on Canvas to outline the pages for this project.
+    Date Accessed: 8/7/2025
+}}
+
 <h1>Prescriptions</h1>
 
 {{! READ table }}
@@ -14,11 +20,14 @@
     </thead>
 
     <tbody>
-        {{! For each row, print the id, fname, lname, homeworld and age }}
+        {{! printing prescription info for each prescription }}
+        {{! including both patientID and patient name for clarity / to make the table easier
+            to read / follow }}
         {{#each prescriptions}}
         <tr>
             <td>{{this.prescriptionID}}</td>
             <td>{{this.patientID}}</td>
+            <td>{{this.patientName}}</td>
             <td>{{this.doctorName}}</td>
             <td>{{this.dateIssued}}</td>
             <td>{{this.numRefills}}</td>

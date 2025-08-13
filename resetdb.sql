@@ -41,8 +41,8 @@ BEGIN
 
     INSERT INTO Prescriptions (patientID, doctorName, dateIssued, numRefills) 
     VALUES (1, 'Abby Connor', '2025-07-01', 1),
-    (2, 'Kelsey Nam', '2025-06-01', 0),
-    (3, 'Stephen Fin', '2025-06-28', 1);
+    (3, 'Kelsey Nam', '2025-06-01', 1),
+    (4, 'Stephen Fin', '2025-06-28', 1);
 
     -- ---------------------------------------------------------------------------------------------
     -- Creates Meds table and adds sample data
@@ -85,9 +85,9 @@ BEGIN
     INSERT INTO PrescriptionMeds (prescriptionID, medicationID, quantityFilled, dateFilled, subTotal) 
     VALUES (1, 3, 50, '2025-07-01', 30.00),
     (1, 4, 25, '2025-07-01', 4.99),
-    (2, 5, 50, '2025-06-25', 35.99),
-    (3, 1, 20, '2025-06-28', 4.75),
-    (3, 2, 20, '2025-06-28', 10.00);
+    (2, 3, 50, '2025-06-25', 35.99),
+    (3, 4, 20, '2025-06-28', 4.75),
+    (3, 3, 20, '2025-06-28', 10.00);
 
     -- ---------------------------------------------------------------------------------------------
     -- Creates Sales table and adds sample data
@@ -105,13 +105,82 @@ BEGIN
     INSERT INTO Sales (prescriptionID, saleDate, totalAmount) 
     VALUES (1, '2025-07-01', 34.99),
     (3, '2025-07-01', 14.75),
-    (2, '2025-06-28', 35.99),
+    (5, '2025-06-28', 35.99),
     (1, '2025-07-28', 34.99);
 
 
 
     SET FOREIGN_KEY_CHECKS=1;
 END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_delete_prescription_med;
+DELIMITER //
+
+CREATE PROCEDURE sp_delete_prescription_med (
+    IN input_id INT
+)
+BEGIN
+    -- Delete the PrescriptionMed row
+    DELETE FROM PrescriptionMeds WHERE ID = input_id;
+END //
+
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_add_PrescriptionMed;
+DELIMITER //
+CREATE PROCEDURE sp_add_PrescriptionMed(
+    IN input_prescriptionID INT,
+    IN input_medicationID INT,
+    IN input_quantityFilled INT,
+    IN input_dateFilled DATE,
+    IN input_subTotal DECIMAL(10,2)
+)
+BEGIN
+    INSERT INTO PrescriptionMeds (prescriptionID, medicationID, quantityFilled, dateFilled, subTotal)
+    VALUES (input_prescriptionID, input_medicationID, input_quantityFilled, input_dateFilled, input_subTotal);
+
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_update_PrescriptionMed;
+DELIMITER //
+CREATE PROCEDURE sp_update_PrescriptionMed(
+    IN input_ID INT, -- primary key of row to update
+    IN input_prescriptionID INT,
+    IN input_medicationID INT,
+    IN input_quantityFilled INT,
+    IN input_dateFilled DATE,
+    IN input_subTotal DECIMAL(10,2)
+)
+BEGIN
+    UPDATE PrescriptionMeds
+    SET 
+        prescriptionID = input_prescriptionID,
+        medicationID = input_medicationID,
+        quantityFilled = input_quantityFilled,
+        dateFilled = input_dateFilled,
+        subTotal = input_subTotal
+    WHERE ID = input_ID;
+
+END //
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS trigger_delete_orphan_prescription;
+DELIMITER //
+
+CREATE TRIGGER trigger_delete_orphan_prescription
+AFTER DELETE ON PrescriptionMeds
+FOR EACH ROW
+BEGIN
+    -- Check if a prescriptionID no longer exists in PrescriptionMeds
+    IF NOT EXISTS (
+        SELECT 1 FROM PrescriptionMeds WHERE PrescriptionMeds.prescriptionID = OLD.prescriptionID
+    ) THEN
+        DELETE FROM Prescriptions WHERE prescriptionID = OLD.prescriptionID;
+    END IF;
+END //
+
 DELIMITER ;
 
 -- citations: none

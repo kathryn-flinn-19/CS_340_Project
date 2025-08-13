@@ -2,16 +2,13 @@ DROP TRIGGER IF EXISTS trigger_delete_orphan_prescription;
 DELIMITER //
 
 CREATE TRIGGER trigger_delete_orphan_prescription
-AFTER DELETE ON PrescriptionMeds
-FOR EACH ROW
+AFTER DELETE ON PrescriptionMeds FOR EACH ROW
 BEGIN
-    -- Check if a prescriptionID no longer exists in PrescriptionMeds
-    IF NOT EXISTS (
-        SELECT 1 FROM PrescriptionMeds WHERE PrescriptionMeds.prescriptionID = OLD.prescriptionID
-    ) THEN
+    IF NOT EXISTS (SELECT 1 FROM PrescriptionMeds WHERE PrescriptionMeds.prescriptionID = OLD.prescriptionID) 
+    THEN
         DELETE FROM Prescriptions WHERE prescriptionID = OLD.prescriptionID;
     END IF;
-END //
+END; //
 
 DELIMITER ;
 

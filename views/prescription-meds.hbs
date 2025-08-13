@@ -20,7 +20,8 @@
         <tr>
             <td>{{this.ID}}</td>
             <td>{{this.prescriptionID}}</td>
-            <td>{{this.medication}}</td>
+            <td>{{this.medicationID}}</td>
+            <td>{{this.medInfo}}</td>
             <td>{{this.quantityFilled}}</td>
             <td>{{this.dateFilled}}</td>
             <td>{{this.subTotal}}</td>
@@ -45,18 +46,25 @@
 {{! Create form }}
 <h2>Add a PrescriptionMed</h2>
 <form class='cuForm' id='create_prescriptionMed_form' method='POST' action='/prescription-meds/create'>
-    <label for='create_prescriptionMed_med'>Medication: </label>
+    <label for='create_prescriptionMed_prescriptionID'>Prescription ID: </label>
+    <select name='create_prescriptionMed_prescriptionID' id='create_prescriptionMed_prescriptionID' required >
+        <option value='NULL' selected disabled>Select a prescription</option>
+        {{#each prescriptions}}
+            <option value='{{this.prescriptionID}}'>
+                {{this.prescriptionID}} - Patient {{this.name}}, DOB {{this.birthDate}}, issued {{this.dateIssued}}
+            </option>
+        {{/each}}
+    </select> <br>
+    
+    <label for='create_prescriptionMed_med'>Medication ID: </label>
     <select name='create_prescriptionMed_med' id='create_prescriptionMed_med' required>
         <option value='NULL' selected disabled>Select a medication</option>
         {{#each meds}}
             <option value='{{this.medicationID}}'>
-                {{this.info}}
+                {{this.medicationID}} - {{this.info}}
             </option>
         {{/each}}
     </select> <br>
-
-    <label for='create_prescriptionMed_prescriptionID'>PrescriptionID: </label>
-    <input type='number' name='create_prescriptionMed_prescriptionID' id='create_prescriptionMed_prescriptionID' required /> <br>
 
     <label for='create_prescriptionMed_quantity'>Quantity:</label>
     <input type='number' name='create_prescriptionMed_quantity' id='create_prescriptionMed_quantity' min='0' required /> <br>

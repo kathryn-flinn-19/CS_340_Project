@@ -34,6 +34,12 @@ app.set('view engine', '.hbs'); // Use handlebars engine for *.hbs files.
 
 // this function iterates through the given array and changes the date parameter of each
 // item in the array such that the date matches the following format: 'YYYY-MM-DD' 
+// the concept behind this function was inspired by Justice Peyton from this Ed Discussion
+// post: https://edstem.org/us/courses/79587/discussion/6854326?answer=15925074
+// notably, the implementation details are completely different, but the idea of manipulating
+// the date-time string came from this post. 
+// Additionally, this article helped me understand the syntax for the JS date manipulation
+// functions used: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date 
 function formatDates(arrToUpdate, dateParamName){
     for(let i = 0; i < arrToUpdate.length; i++){
         let zeroString = '0';
@@ -162,17 +168,24 @@ app.get('/prescription-meds', async function (req, res) {
     try {
         // Create and execute our queries
         // grabbing prescriptionMed info w/ the NAME of each med, as opposed to just the id
-        const query1 = `SELECT ID, prescriptionID, concat(name, ' ', dosageForm, ' ', dosageStrength, ' ', dosageUnit) as medication, \
-            quantityFilled, dateFilled, subTotal FROM PrescriptionMeds INNER JOIN Meds ON PrescriptionMeds.medicationID = Meds.medicationID;`;
+        const query1 = `SELECT ID, prescriptionID, PrescriptionMeds.medicationID, concat(name, ' ', dosageForm, ' ', dosageStrength, ' ', dosageUnit) as medInfo, \
+            quantityFilled, dateFilled, subTotal FROM PrescriptionMeds JOIN Meds ON PrescriptionMeds.medicationID = Meds.medicationID;`;
         const [prescriptionMeds] = await db.query(query1);
 
         formatDates(prescriptionMeds, 'dateFilled');
 
         const query2 = `SELECT medicationID, concat(name, ' ', dosageForm, ' ', dosageStrength, ' ', dosageUnit) as info \
-            FROM Meds`;
+            FROM Meds ORDER BY medicationID`;
         const [meds] = await db.query(query2);
     
-        res.render('prescription-meds', { prescriptionMeds: prescriptionMeds, meds: meds });
+        const query3 = `SELECT prescriptionID, dateIssued, concat(firstName, ' ', lastName) as name, birthDate FROM Prescriptions \
+            JOIN Patients ON Prescriptions.patientID = Patients.patientID;`;
+        const [prescriptions] = await db.query(query3);
+
+        formatDates(prescriptions, 'dateIssued');
+        formatDates(prescriptions, 'birthDate');
+
+        res.render('prescription-meds', { prescriptionMeds: prescriptionMeds, meds: meds, prescriptions: prescriptions });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -184,7 +197,7 @@ app.get('/prescription-meds', async function (req, res) {
 
 app.get('/prescription-meds/update/:id', async function (req, res){
     try {
-        const query1 = `SELECT PrescriptionMeds.ID, prescriptionID, quantityFilled, dateFilled, subTotal \ 
+        const query1 = `SELECT PrescriptionMeds.ID, PrescriptionMeds.medicationID, prescriptionID, quantityFilled, dateFilled, subTotal \ 
             FROM PrescriptionMeds JOIN Meds ON PrescriptionMeds.medicationID = Meds.medicationID \
             AND PrescriptionMeds.ID = ${req.params.id};`;
         const [prescriptionMedInfo] = await db.query(query1);
@@ -200,10 +213,30 @@ app.get('/prescription-meds/update/:id', async function (req, res){
         const query3 = `SELECT Meds.medicationID, concat(Meds.name, ' ', Meds.dosageForm, ' ', Meds.dosageStrength, ' ', \
             Meds.dosageUnit) AS info FROM Meds \
             WHERE NOT Meds.medicationID = (SELECT medicationID FROM PrescriptionMeds \
-                WHERE PrescriptionMeds.ID = ${req.params.id});`;
+                WHERE PrescriptionMeds.ID = ${req.params.id}) ORDER BY Meds.medicationID;`;
         const [otherMeds] = await db.query(query3);
 
-        res.render('prescription-med-update', { prescriptionMedInfo: prescriptionMedInfo, selectedMed: selectedMed, otherMeds: otherMeds });
+        const query4 = `SELECT prescriptionID, dateIssued, concat(firstName, ' ', lastName) as name, birthDate FROM Prescriptions \
+            JOIN Patients ON Prescriptions.patientID = Patients.patientID AND Prescriptions.prescriptionID = ${prescriptionMedInfo[0].prescriptionID};`;
+        const [selectedPrescription] = await db.query(query4);
+
+        formatDates(selectedPrescription, 'dateIssued');
+        formatDates(selectedPrescription, 'birthDate');
+        
+        const query5 = `SELECT prescriptionID, dateIssued, concat(firstName, ' ', lastName) as name, birthDate FROM Prescriptions \
+            JOIN Patients ON Prescriptions.patientID = Patients.patientID AND NOT Prescriptions.prescriptionID = ${prescriptionMedInfo[0].prescriptionID};`;
+        const [otherPrescriptions] = await db.query(query5);
+
+        formatDates(otherPrescriptions, 'dateIssued');
+        formatDates(otherPrescriptions, 'birthDate');
+
+        res.render('prescription-med-update', 
+            { prescriptionMedInfo: prescriptionMedInfo, 
+              selectedMed: selectedMed, 
+              otherMeds: otherMeds, 
+              selectedPrescription: selectedPrescription,
+              otherPrescriptions: otherPrescriptions 
+            });
     } catch (error) {
         console.error('Error executing queries:', error);
         // Send a generic error message to the browser
@@ -218,8 +251,6 @@ app.post('/prescription-meds/update/:id/', async function (req, res){
         let data = req.body;
         
         // make sure to go back and sanitize data
-
-        console.log(data.update_prescriptionMed_dateFilled);
 
         const query1 = `CALL sp_update_PrescriptionMed(?, ?, ?, ?, ?, ?);`;
 

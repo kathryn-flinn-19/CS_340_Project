@@ -2,18 +2,26 @@
 <h1>Update a Prescription Med</h1>
 <form class='cuForm' id='update_prescriptionMed_form' method='POST' action='/prescription-meds/update/{{prescriptionMedInfo.[0].ID}}'>
     <label for='update_prescriptionMed_prescriptionID'>Prescription ID: </label>
-    <input type='number' name='update_prescriptionMed_prescriptionID' id='update_prescriptionMed_prescriptionID' 
-    value='{{prescriptionMedInfo.[0].prescriptionID}}' min='0' required='true' /> <br>
+    <select name='update_prescriptionMed_prescriptionID' id='update_prescriptionMed_prescriptionID' required>
+        <option value='{{selectedPrescription.[0].prescriptionID}}'>
+            {{selectedPrescription.[0].prescriptionID}} - Patient {{selectedPrescription.[0].name}}, DOB {{selectedPrescription.[0].birthDate}}, issued {{selectedPrescription.[0].dateIssued}}
+        </option>
+        {{#each otherPrescriptions}}
+            <option value='{{this.prescriptionID}}'>
+                {{this.prescriptionID}} - Patient {{this.name}}, DOB {{this.birthDate}}, issued {{this.dateIssued}}
+            </option>
+        {{/each}}
+    </select> <br>
 
-    <label for='update_prescriptionMed_info'>Medication: </label>
+    <label for='update_prescriptionMed_info'>Medication ID: </label>
     <select for='update_prescriptionMed_info' name='update_prescriptionMed_info' id='update_prescriptionMed_info'>
         <option value='{{selectedMed.[0].medicationID}}' selected>
-            {{selectedMed.[0].info}}
+            {{selectedMed.[0].medicationID}} - {{selectedMed.[0].info}}
         </option>
 
         {{#each otherMeds}}
             <option value='{{this.medicationID}}'>
-                {{this.info}}
+                {{this.medicationID}} - {{this.info}}
             </option>
         {{/each}}
     </select> <br>

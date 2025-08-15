@@ -1,0 +1,40 @@
+<h1>Prescriptions and Meds</h1>
+
+<form>
+    <label for='select_prescription'>Select a Prescription:</label>
+    <select for='select_prescription' required>
+        {{#each prescriptions}}
+            <option name='{{this.id}}'>
+                {{this.prescriptionInfo}}
+            </option>
+        {{/each}}
+    </select>
+</form>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each prescriptions.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the id, fname, lname, homeworld and age }}
+        {{#each prescriptions}}
+            <tr>
+                <td>{{this.prescriptionID}}</td>
+                <td>{{this.patientID}}</td>
+                <td>{{this.doctorName}}</td>
+                <td>{{this.dateIssued}}</td>
+                <td>{{this.numRefills}}</td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+

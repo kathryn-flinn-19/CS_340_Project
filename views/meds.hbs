@@ -1,0 +1,35 @@
+{{! Citation
+    Source: https://canvas.oregonstate.edu/courses/2007765/pages/exploration-web-application-technology-2?module_item_id=25664612
+    Reason for Use / Level of Originality: I used the template code on Canvas to outline the pages for this project.
+    Date Accessed: 8/7/2025
+}}
+
+<h1>Meds</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each meds.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! printing id, name, dosage form, strength, unit, and quantity available for each med }}
+        {{#each meds}}
+        <tr>
+            <td>{{this.medicationID}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.dosageForm}}</td>
+            <td>{{this.dosageStrength}}</td>
+            <td>{{this.dosageUnit}}</td>
+            <td>{{this.quantity}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

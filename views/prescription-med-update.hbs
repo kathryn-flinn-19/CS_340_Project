@@ -1,0 +1,57 @@
+{{! Citation
+    Source: https://canvas.oregonstate.edu/courses/2007765/pages/exploration-web-application-technology-2?module_item_id=25664612
+    Reason for Use / Level of Originality: I based the update form off the one in the Canvas template code.
+    Date Accessed: 8/7/2025
+}}
+
+{{! UPDATE form }}
+<h1>Update a Prescription Med</h1>
+<form class='cuForm' id='update_prescriptionMed_form' method='POST' action='/prescription-meds/update/{{prescriptionMedInfo.[0].ID}}'>
+    <p>Updating PrescriptionMed with ID {{prescriptionMedInfo.[0].ID}}</p>
+    {{! prescription selection --- associated prescription is selected by default}}
+    <label for='update_prescriptionMed_prescriptionID'>Prescription ID: </label>
+    <select name='update_prescriptionMed_prescriptionID' id='update_prescriptionMed_prescriptionID' required>
+        <option value='{{selectedPrescription.[0].prescriptionID}}'>
+            {{selectedPrescription.[0].prescriptionID}} - Patient {{selectedPrescription.[0].name}}, DOB {{selectedPrescription.[0].birthDate}}, issued {{selectedPrescription.[0].dateIssued}}
+        </option>
+
+        {{! printing each of the other (non-associated) prescriptions}}
+        {{#each otherPrescriptions}}
+            <option value='{{this.prescriptionID}}'>
+                {{this.prescriptionID}} - Patient {{this.name}}, DOB {{this.birthDate}}, issued {{this.dateIssued}}
+            </option>
+        {{/each}}
+    </select> <br>
+
+    {{! printing medication info --- associated med is selected by default}}    
+    <label for='update_prescriptionMed_info'>Medication ID: </label>
+    <select for='update_prescriptionMed_info' name='update_prescriptionMed_info' id='update_prescriptionMed_info' required >
+        <option value='{{selectedMed.[0].medicationID}}' selected>
+            {{selectedMed.[0].medicationID}} - {{selectedMed.[0].info}}
+        </option>
+
+        {{! printing other non-associated meds}}
+        {{#each otherMeds}}
+            <option value='{{this.medicationID}}'>
+                {{this.medicationID}} - {{this.info}}
+            </option>
+        {{/each}}
+    </select> <br>
+
+    {{! quantity input --- whole number, minimum 0, maximum 1,000,000 for logical + int capactity purposes}}
+    <label for='update_prescriptionMed_quantity'>Quantity: </label>
+    <input type='number' name='update_prescriptionMed_quantity' id='update_prescriptionMed_quantity' 
+        value='{{prescriptionMedInfo.[0].quantityFilled}}' min='0', max='1000000' required /> <br>
+
+    {{! date filled input --- preset to previous med value }}
+    <label for='update_prescriptionMed_dateFilled'>Date Filled: </label>
+    <input type='date' name='update_prescriptionMed_dateFilled' id='update_prescriptionMed_dateFilled' 
+        value='{{prescriptionMedInfo.[0].dateFilled}}' /> <br>
+
+    {{! subtotal input --- number w/ up to 2 decimal places. required. }}
+    <label for='update_prescriptionMed_subtotal'>Subtotal: </label>
+    <input type='number' name='update_prescriptionMed_subtotal' id='update_prescriptionMed_subtotal' 
+        value='{{prescriptionMedInfo.[0].subTotal}}' step='.01' min='0' max='1000000' required /> <br>
+
+    <input type='submit' />
+</form>

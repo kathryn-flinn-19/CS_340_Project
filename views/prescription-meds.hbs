@@ -1,0 +1,92 @@
+{{! Citation
+    Source: https://canvas.oregonstate.edu/courses/2007765/pages/exploration-web-application-technology-2?module_item_id=25664612
+    Reason for Use / Level of Originality: I used the template code on Canvas to outline the pages for this project. The table and
+        forms are very similar, but adapted to have my project's values in it instead.
+    Date Accessed: 8/7/2025
+}}
+
+<h1>PrescriptionMeds</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each prescriptionMeds.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! printing the PrescriptionMed info for each prescription med}}
+        {{#each prescriptionMeds}}
+        <tr>
+            <td>{{this.ID}}</td>
+            <td>{{this.prescriptionID}}</td>
+            <td>{{this.medicationID}}</td>
+            <td>{{this.medInfo}}</td>
+            <td>{{this.quantityFilled}}</td>
+            <td>{{this.dateFilled}}</td>
+            <td>{{this.subTotal}}</td>
+
+            {{! UPDATE link --- will lead to a separate page instead of having the form embedded in this page }}
+            <td><a href="/prescription-meds/update/{{this.ID}}">Update</a></td>
+
+            {{! DELETE form }}
+            <form id='delete_prescription_form' action='prescription-meds/delete/' method='POST'>
+                <input type='hidden' name='delete_prescriptionMed_id' value='{{this.ID}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{! Create form }}
+<h2>Add a PrescriptionMed</h2>
+<form class='cuForm' id='create_prescriptionMed_form' method='POST' action='/prescription-meds/create'>
+    {{! prescription selection --- includes id and identifying information }}
+    <label for='create_prescriptionMed_prescriptionID'>Prescription ID: </label>
+    <select name='create_prescriptionMed_prescriptionID' id='create_prescriptionMed_prescriptionID' required >
+        <option value='NULL' selected disabled>Select a prescription</option>
+        {{#each prescriptions}}
+            <option value='{{this.prescriptionID}}'>
+                {{this.prescriptionID}} - Patient {{this.name}}, DOB {{this.birthDate}}, issued {{this.dateIssued}}
+            </option>
+        {{/each}}
+    </select> <br>
+    
+    {{! medication selection --- includes id and identifying information}}
+    <label for='create_prescriptionMed_med'>Medication ID: </label>
+    <select name='create_prescriptionMed_med' id='create_prescriptionMed_med' required>
+        <option value='NULL' selected disabled>Select a medication</option>
+        {{#each meds}}
+            <option value='{{this.medicationID}}'>
+                {{this.medicationID}} - {{this.info}}
+            </option>
+        {{/each}}
+    </select> <br>
+
+    {{! quantity must be a whole number greater than 0. it is also required }}
+    <label for='create_prescriptionMed_quantity'>Quantity:</label>
+    <input type='number' name='create_prescriptionMed_quantity' id='create_prescriptionMed_quantity' min='0' max='1000000' required /> <br>
+
+    {{! dateFilled is NOT required }}
+    <label for='create_prescriptionMed_dateFilled'>Date Filled:</label>
+    <input type='date' name='create_prescriptionMed_dateFilled' id='create_prescriptionMed_dateFilled' /> <br>
+    
+    {{! subTotal is a number w/ two decimal places. it is required for form submission.}}
+    <label for='create_prescriptionMed_subTotal'>Subtotal:</label>
+    <input type='number' step='.01' min='0' max='1000000' name='create_prescriptionMed_subTotal' id='create_prescriptionMed_subTotal' min='0' required/> <br>
+
+    <input type='submit' />
+</form>

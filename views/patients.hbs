@@ -1,0 +1,36 @@
+{{! Citation
+    Source: https://canvas.oregonstate.edu/courses/2007765/pages/exploration-web-application-technology-2?module_item_id=25664612
+    Reason for Use / Level of Originality: I used the template code on Canvas to outline the pages for this project.
+    Date Accessed: 8/7/2025
+}}
+
+<h1>Patients</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each patients.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! printing the patient info for each patient }}
+        {{#each patients}}
+        <tr>
+            <td>{{this.patientID}}</td>
+            <td>{{this.firstName}}</td>
+            <td>{{this.lastName}}</td>
+            <td>{{this.birthDate}}</td>
+            <td>{{this.phoneNumber}}</td>
+            <td>{{this.emailAddress}}</td>
+
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

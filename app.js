@@ -21,7 +21,7 @@ app.use(express.static('public'));
 const PORT = 50348;
 
 // development port 
-//const PORT = 50807;
+//const PORT = 51807;
 
 // Database
 const db = require('./database/db-connector');
@@ -194,7 +194,7 @@ app.get('/prescription-meds', async function (req, res) {
 
         // grabbing all med info for our create form med dropdown
         const query2 = `SELECT medicationID, concat(name, ' ', dosageForm, ' ', dosageStrength, ' ', dosageUnit) as info \
-            FROM Meds ORDER BY medicationID`;
+            FROM Meds ORDER BY medicationID;`;
         const [meds] = await db.query(query2);
     
         // grabbing all prescriptions for our create form prescription dropdown

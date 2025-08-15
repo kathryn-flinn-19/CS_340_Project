@@ -78,7 +78,7 @@
 
     {{! quantity must be a whole number greater than 0. it is also required }}
     <label for='create_prescriptionMed_quantity'>Quantity:</label>
-    <input type='number' name='create_prescriptionMed_quantity' id='create_prescriptionMed_quantity' min='0' required /> <br>
+    <input type='number' name='create_prescriptionMed_quantity' id='create_prescriptionMed_quantity' min='0' max='1000000' required /> <br>
 
     {{! dateFilled is NOT required }}
     <label for='create_prescriptionMed_dateFilled'>Date Filled:</label>
@@ -86,7 +86,7 @@
     
     {{! subTotal is a number w/ two decimal places. it is required for form submission.}}
     <label for='create_prescriptionMed_subTotal'>Subtotal:</label>
-    <input type='number' step='.01' name='create_prescriptionMed_subTotal' id='create_prescriptionMed_subTotal' min='0' required/> <br>
+    <input type='number' step='.01' min='0' max='1000000' name='create_prescriptionMed_subTotal' id='create_prescriptionMed_subTotal' min='0' required/> <br>
 
     <input type='submit' />
 </form>

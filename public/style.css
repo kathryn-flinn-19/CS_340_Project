@@ -1,3 +1,10 @@
+/* Citation: 
+   Source: https://canvas.oregonstate.edu/courses/2007765/pages/exploration-web-application-technology-2?module_item_id=25664612
+   Reason for Use / Level of Originality: I used the template code on Canvas to implement base CSS rules. However, I
+        went back and changed many of the rules to make it unique and original.
+   Date Accessed: 8/7/2025
+*/
+
 body {
     background-color: rgb(255, 241, 218);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -34,4 +41,7 @@ a:active {
 a:visited {
     color: rgb(119, 32, 0);
 }
-.homepageDescription {margin-left: 32px;}
+.homepageDescription {
+    margin-left: 32px;
+    max-width: 80%;
+}

@@ -38,10 +38,10 @@
         {{/each}}
     </select> <br>
 
-    {{! quantity input --- whole number, minimum 0}}
+    {{! quantity input --- whole number, minimum 0, maximum 1,000,000 for logical + int capactity purposes}}
     <label for='update_prescriptionMed_quantity'>Quantity: </label>
     <input type='number' name='update_prescriptionMed_quantity' id='update_prescriptionMed_quantity' 
-        value='{{prescriptionMedInfo.[0].quantityFilled}}', min='0' required /> <br>
+        value='{{prescriptionMedInfo.[0].quantityFilled}}' min='0', max='1000000' required /> <br>
 
     {{! date filled input --- preset to previous med value }}
     <label for='update_prescriptionMed_dateFilled'>Date Filled: </label>
@@ -51,7 +51,7 @@
     {{! subtotal input --- number w/ up to 2 decimal places. required. }}
     <label for='update_prescriptionMed_subtotal'>Subtotal: </label>
     <input type='number' name='update_prescriptionMed_subtotal' id='update_prescriptionMed_subtotal' 
-        value='{{prescriptionMedInfo.[0].subTotal}}' step='.01' required /> <br>
+        value='{{prescriptionMedInfo.[0].subTotal}}' step='.01' min='0' max='1000000' required /> <br>
 
     <input type='submit' />
 </form>
